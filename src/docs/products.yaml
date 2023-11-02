@@ -1,0 +1,377 @@
+paths:
+  /api/products:
+    get:
+      security:
+        - cookieAuth: []    
+      tags:
+        - Products
+      summary: Get All Products
+      description: Get All Products in Flowery 4107 catalog
+      operationId: getAllProducts
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+            example: '5'
+        - name: available
+          in: query
+          schema:
+            type: string
+            example: 'true'
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: asc
+        - name: category
+          in: query
+          schema:
+            type: string
+            example: Flores Ornamentales
+        - name: page
+          in: query
+          schema:
+            type: string
+            example: '2'
+      responses:
+        '200':
+          description: Products retrieved successfully,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalProducts:
+                    type: number
+                    example: 1
+                  totalPages:
+                    type: number
+                    example: 1
+                  page:
+                    type: number
+                    example: 1
+                  limit:
+                    type: number
+                    example: 1
+                  pagingCounter:
+                    type: number
+                    example: 1
+                  hasPrevPage:
+                    type: boolean
+                    example: false
+                  hasNextPage:
+                    type: boolean
+                    example: false
+                  prevPage:
+                    type: number
+                    example: null
+                  nextPage:
+                    type: number
+                    example: null
+                  firstLink:
+                    type: string
+                    example: /api/products?limit=1&page=1
+                  lastLink:
+                    type: string
+                    example: /api/products?limit=1&page=1
+                  prevLink:
+                    type: string
+                    example: null
+                  nextLink:
+                    type: string
+                    example: null
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'        
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Products
+      security:
+        - cookieAuth: []    
+      summary: Create Product
+      description: Create a new product in Flowery 4107 catalog
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/requestBodies/newProduct'
+      responses:
+        '200':
+          description: 'Product created successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product added successfully
+                  product:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'        
+        '403':
+          $ref: '#/components/responses/ForbidenError'        
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/products/{productId}:
+    get:
+      tags:
+        - Products
+      security:
+        - cookieAuth: []    
+      summary: Get product by ID
+      description: Get product by ID
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6498f2feb8c8060f32debf0d
+      responses:
+        '200':
+          description: 'Product successfully retrieved by ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  product:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'        
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Products
+      security:
+        - cookieAuth: []    
+      summary: Update Product
+      description: Update an existing product in Flowery 4107 catalog
+      operationId: updateProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6498f2feb8c8060f32debf0d
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateProduct'
+      responses:
+        '200':
+          description: 'Product updated successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product updated successfully
+                  product:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'        
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Products
+      security:
+        - cookieAuth: []    
+      summary: Delete product
+      description: Delete an existing product in Flowery 4107 catalog
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6498f2feb8c8060f32debf0d
+      responses:
+        '200':
+          description: 'Product deleted successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product deleted successfully
+  /api/products/mockingproducts:
+    get:
+      tags:
+        - Products
+      security:
+        - cookieAuth: []    
+      summary: Mocking Products
+      description: Returns a list of products for mocking purposes
+      operationId: mockingProducts
+      responses:
+        '200':
+          description: Mocking products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'        
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated id of the product.
+          example: 6498f2feb8c8060f32debf0d
+        title:
+          type: string
+          description: The title of the product.
+          example: Tulipanes
+        description:
+          type: string
+          description: A description of the product.
+          example: Tulipanes de colores
+        code:
+          type: string
+          description: A unique code for the product.
+          example: TUPA355
+        price:
+          type: number
+          description: The price of the product.
+          example: 100
+        status:
+          type: boolean
+          description: The status of the product.
+          default: true
+        stock:
+          type: integer
+          description: The stock quantity of the product.
+          example: 100
+        category:
+          type: string
+          description: The category of the product.
+          example: Flores Ornamentales
+        thumbnails:
+          type: array
+          description: Array of URLs of product thumbnails.
+          items:
+            type: string
+            description: URLs of product thumbnails.
+            example: https://res.cloudinary.com/djlmqpd2n/image/upload/v1620220003/flowery4107/products/6498f2feb8c8060f32debf0d/6498f2feb8c8060f32debf0d_1.jpg
+  requestBodies:
+    newProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the product.
+        description:
+          type: string
+          description: A description of the product.
+        code:
+          type: string
+          description: A unique code for the product.
+        price:
+          type: number
+          description: The price of the product.
+        status:
+          type: boolean
+          description: The status of the product.
+          default: true
+        stock:
+          type: integer
+          description: The stock quantity of the product.
+        category:
+          type: string
+          description: The category of the product.
+        thumbnails:
+          type: array
+          description: Array of URLs of product thumbnails.
+          items:
+            type: string
+            description: URLs of product thumbnails.
+      required:
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category        
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the product.
+        description:
+          type: string
+          description: A description of the product.
+        code:
+          type: string
+          description: A unique code for the product.
+        price:
+          type: number
+          description: The price of the product.
+        stock:
+          type: integer
+          description: The stock quantity of the product.
+        category:
+          type: string
+          description: The category of the product.

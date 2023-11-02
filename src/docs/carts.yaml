@@ -1,0 +1,372 @@
+paths:
+  /api/carts:
+    post:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Create Cart
+      description: Create a new shopping cart for the user
+      operationId: createCart
+      responses:
+        '200':
+          description: Shopping cart created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Cart added successfully
+                  cartId:
+                    type: string
+                    example: 64d1bc488210aec6805e81cf
+        '401':
+          $ref: '#/components/responses/UnauthorizedError' 
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/carts/{cartId}:
+    get:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: View Cart Products
+      description: View products added to the user's cart
+      operationId: viewCartProducts
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  cart:
+                    type: object
+                    $ref: '#/components/schemas/Cart'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Add product list to cart
+      description: Add a product list to user's cart
+      operationId: addProductListToCart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: string
+                        example: 6507c29c39e3706c4380f85d
+                      quantity:
+                        type: number
+                        example: 50
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  cart:
+                    type: object
+                    $ref: '#/components/schemas/Cart'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Empty Cart
+      description: Empty all products from the user's cart
+      operationId: emptyCart
+      responses:
+        '200':
+          description: 'Empty cart'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Cart successfully emptied
+                  cart:
+                    type: object
+                    example: {
+                      "_id": "64d1bc488210aec6805e81cf",
+                      "products": []
+                    }
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/carts/{cartId}/products/{productId}:
+    post:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Add product to cart
+      description: Add product to user's cart
+      operationId: addProductToCart
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product added to cart successfully
+                  cart:
+                    type: object
+                    $ref: '#/components/schemas/Cart'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Update Product Quantity
+      description: Update Product Quantity in user's cart
+      operationId: updateProductQuantity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  example: 9
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product quantity updated successfully
+                  cart:
+                    type: object
+                    $ref: '#/components/schemas/Cart'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Remove product from cart
+      description: Remove product from cart
+      operationId: removeProductFromCart
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Product deleted from cart successfully
+                  cart:
+                    type: object
+                    $ref: '#/components/schemas/Cart'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/carts/{cartId}/checkout:
+    post:
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []    
+      summary: Checkout
+      description: Proceed to checkout
+      operationId: checkout
+      responses:
+        '200':
+          description: 'Shopping cart products'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 1
+                  msg:
+                    type: string
+                    example: Cart successfully purchased
+                  purchaseCartResult:
+                    type: object
+                    properties:
+                      ticket:
+                        type: object
+                        $ref: '#/components/schemas/Ticket'
+                      productsPurchased:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: object
+                              $ref: '#/components/schemas/Product'
+                            quantity:
+                              type: number
+                              example: 50
+                      productsNotPurchased:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: object
+                              $ref: '#/components/schemas/Product'
+                            quantity:
+                              type: number
+                              example: 3
+                      remainingCart:
+                        type: object
+                        $ref: '#/components/schemas/Cart'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbidenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated id of the cart.
+          example: 64d1bc488210aec6805e81cf
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: object
+                $ref: '#/components/schemas/Product'
+              quantity:
+                type: number
+                example: 50
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The auto-generated code of the ticket.
+          example: KxfK7KCgj
+        amount:
+          type: number
+          description: The amount of the ticket.
+          example: 1000
+        purchaser:
+          type: string
+          description: The user who purchased the ticket.
+          example: pepe@contoso.com
+        _id:
+          type: string
+          description: The auto-generated id of the ticket.
+          example: 64d1bc488210aec6805e81cf
+        purchaseDatetime:
+          type: string
+          description: The date when the ticket was purchased.
+          example: 2023-09-25T05:48:05.004Z

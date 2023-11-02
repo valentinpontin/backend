@@ -1,0 +1,115 @@
+tags:
+  - name: Products
+    description: Everything about your Flowery 4107 products
+  - name: Carts
+    description: All methods related to Flowery 4107 shopping carts
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: floweryjwt
+  responses:
+    BadRequestError:
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                example: 0
+              errorObject:
+                type: object
+                properties:
+                  type:
+                    type: number
+                    example: 5
+                  name:
+                    type: string
+                    example: getProductById Error
+                  message:
+                    type: string
+                    example: Product with same code already exists
+                  recievedParams:
+                    type: object
+                    example: {"code": "TUPA355"}
+      status: 400
+    UnauthorizedError:
+      description: Unauthorized error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                example: 0
+              msg:
+                type: string
+                example: Unauthorized
+      status: 401
+    ForbidenError:
+      description: Forbiden error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                example: 0
+              msg:
+                type: string
+                example: Forbiden
+      status: 403
+    NotFoundError:
+      description: Not found error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                example: 0
+              errorObject:
+                type: object
+                properties:
+                  type:
+                    type: number
+                    example: 5
+                  name:
+                    type: string
+                    example: getProductById Error
+                  message:
+                    type: string
+                    example: Product not found
+                  recievedParams:
+                    type: object
+                    example: {"productId": "6498f2feb8c8060f32debf0e"}
+      status: 404
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: number
+                example: 0
+              errorObject:
+                type: object
+                properties:
+                  type:
+                    type: number
+                    example: 10
+                  name:
+                    type: string
+                    example: getProductById Error
+                  message:
+                    type: string
+                    example: Failed to retrieve Cast to ObjectId failed for value \6498f2feb8c8060f32debf0dd\ (type string) at path \_id\ for model \products\
+      status: 500

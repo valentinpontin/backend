@@ -1,0 +1,55 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/app.js",
+    "start:qa": "cross-env NODE_ENV=qa nodemon ./src/app.js",
+    "start:prod": "cross-env NODE_ENV=prod nodemon ./src/app.js",
+    "test:dev": "cross-env NODE_ENV=dev mocha src/test/**/*.test.js"
+  },
+  "author": "Valentin Pontin",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "bcrypt": "^5.1.0",
+    "commander": "^11.0.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-compression": "^1.0.2",
+    "express-handlebars": "^7.0.7",
+    "express-routemap": "^1.6.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.4.2",
+    "mongoose-paginate-v2": "^1.7.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.5",
+    "passport": "^0.6.0",
+    "passport-github2": "^0.1.12",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "shortid": "^2.2.16",
+    "socket.io": "^4.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.10.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "src/data/*.json"
+    ]
+  },
+  "devDependencies": {
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
+  }
+}

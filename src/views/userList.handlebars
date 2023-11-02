@@ -1,0 +1,33 @@
+<div>
+    <div class="userProfile">
+        <h2>Bienvenido</h2>
+        <p>{{user.firstName}} {{user.lastName}}</p>
+        <p>{{user.email}}</p>
+        <p>Rol: {{user.role}}</p>
+        <button class="logout">Logout</button>
+    </div>
+    <h1>Listado de usuarios</h1>
+    <div class="cardsContainer">
+        {{#each users.users}}
+            <div class="card">
+                <h2>{{this.firstName}} {{this.lastName}}</h2>
+                <p>Email: {{this.email}}</p>
+                <p>Rol: {{this.role}}</p>
+                <p>Fecha de Nacimiento: {{this.birthDate}}</p>
+                <p>Última Conexión: {{this.lastConnection}}</p>
+            </div>
+        {{/each}}
+    </div>
+    <div>
+        {{#if users.hasPrevPage}}
+            <a href={{users.prevLink}}>Previous Page</a>
+        {{/if}}
+        <span>
+            Page {{users.page}} of {{users.totalPages}}
+        </span>
+        {{#if users.hasNextPage}}
+            <a href={{users.nextLink}}>Next Page</a>
+        {{/if}}
+    </div>
+</div>
+<script src="/files/js/logout.js"></script>
